@@ -4,8 +4,7 @@
 # 首先判断是否有webpinfo webpmux dwebp convert 这三个命令
 # 三个缺一不可，少了不让他执行
 hasCommandByType(){
-    if type $1 2>/dev/null; 
-    then
+    if command -v $1 >/dev/null 2>&1; then
         return 1
     else
         return 0
@@ -41,20 +40,18 @@ fi
 # 获取帧数
 frame_num=$(webpinfo $webpfile|grep Format|wc -l)
 # 循环指针，拆分成一个个的png文件放到临时文件夹下面
+echo "start to split frames"
 for (( i = 0; i < frame_num; i++ )); do
-	webpmux -get frame $i $webpfile -o "$i.webp"
-	dwebp "$i.webp" -o "$i.png"
+	webpmux -get frame $i $webpfile -o "$i.webp" 2>/dev/null
+	dwebp "$i.webp" -o "$i.png" 2>/dev/null
 done
 # 修正一下1-9前面给她加0 否则他排序有问题
 # TODO 这里有个位数问题。。。
-for i in {1..9}
-do
-	if [[ -f "$i.png" ]]; then
-		mv "$i.png" "0$i.png"
-	fi
-done
+
+# TODO 这里有个位数问题。。。
 
 # convert这些png变成gif
+echo "start to implode png to gif "
 convert -delay 0 -loop 0 *.png final.gif # 临时gif
 mv $tmp_dir/final.gif $working_dir/$2
 rm -rf $tmp_dir
