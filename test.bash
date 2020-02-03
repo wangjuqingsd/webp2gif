@@ -39,16 +39,16 @@ if [[ ! -f $webpfile ]]; then	#TODO 这里需要查一查API了，在当前目�
 fi
 # 获取帧数
 frame_num=$(webpinfo $webpfile|grep Format|wc -l)
+frame_num_str=$frame_num""
+frame_num_length=${#frame_num_str}
 # 循环指针，拆分成一个个的png文件放到临时文件夹下面
 echo "start to split frames"
 for (( i = 0; i < frame_num; i++ )); do
+	pngname="" # TODO 在这里解决位数问题。先睡了
 	webpmux -get frame $i $webpfile -o "$i.webp" 2>/dev/null
 	dwebp "$i.webp" -o "$i.png" 2>/dev/null
+	rm -rf "$i.webp"
 done
-# 修正一下1-9前面给她加0 否则他排序有问题
-# TODO 这里有个位数问题。。。
-
-# TODO 这里有个位数问题。。。
 
 # convert这些png变成gif
 echo "start to implode png to gif "
