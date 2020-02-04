@@ -1,9 +1,9 @@
 ### What is this
-
-最近在网上保存一些动图总是发现是webp格式的，对他进行了一些研究，发现这货的一些项目应用案例和转换回gif图片的方式，在此做一下记录。这个程序需要你给她一个权限
+基于github上[elsonwx/webp2gif](https://github.com/elsonwx/webp2gif)做了一些改动
+网上保存一些动图总是发现是webp格式的，对他进行了一些研究，发现这货的一些项目应用案例和转换回gif图片的方式，在此做一下记录。这个程序需要你给她一个权限
 
 ```bash
-chmod +x webp2gif.bash
+chmod +x run.bash
 ```
 
 
